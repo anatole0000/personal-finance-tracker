@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Income and Expense Report</h2>
+
+    <h3>Monthly Income and Expense Breakdown</h3>
+    <div>
+        <!-- Render the Plotly chart here -->
+        {{ chart|safe }}
+    </div>
+
+    <h3>Income by Month</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Month</th>
+                <th>Total Income</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for month in income_by_month %}
+                <tr>
+                    <td>{{ month.date__month }}</td>
+                    <td>${{ month.total_income }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>Expense by Month</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Month</th>
+                <th>Total Expense</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for month in expense_by_month %}
+                <tr>
+                    <td>{{ month.date__month }}</td>
+                    <td>${{ month.total_expense }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block extra_css %}
+    <style>
+        /* Custom styles for the Dashboard page */
+        h2 {
+            color: #007bff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.2em;
+            margin: 10px 0;
+        }
+
+        .dashboard-summary {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .recent-transactions ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .recent-transactions li {
+            background-color: #fff;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .recent-transactions li:nth-child(odd) {
+            background-color: #f4f4f4;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <h2>Dashboard</h2>
+
+    <!-- Dashboard summary -->
+    <div class="dashboard-summary">
+        <p><strong>Total Income:</strong> ${{ total_income }}</p>
+        <p><strong>Total Expense:</strong> ${{ total_expense }}</p>
+        <p><strong>Balance:</strong> ${{ balance }}</p>
+    </div>
+
+    <h3>Recent Transactions</h3>
+    <div class="recent-transactions">
+        <ul>
+            {% for transaction in transactions %}
+                <li>{{ transaction.date }}: {{ transaction.description }} - ${{ transaction.amount }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

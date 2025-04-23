@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Finance Tracker</title>
+
+    <!-- Inline CSS for base styles -->
+    <style>
+        /* Reset and base styles (same as before) */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        nav {
+            margin-top: 20px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 1.1em;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        nav .btn {
+            background-color: #28a745;
+            padding: 10px 20px;
+            border-radius: 5px;
+            color: white;
+            font-size: 1.1em;
+            text-decoration: none;
+        }
+
+        nav .btn:hover {
+            background-color: #218838;
+        }
+
+        main {
+            padding: 20px;
+            background-color: white;
+            margin: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        footer {
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+
+        /* Responsive design for smaller screens */
+        @media (max-width: 768px) {
+            nav {
+                text-align: center;
+            }
+
+            nav a {
+                display: block;
+                margin-bottom: 10px;
+            }
+
+            footer {
+                position: relative;
+            }
+        }
+
+        /* Add styles for forms */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 1.2em;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+
+        .form-group input:focus {
+            outline-color: #007bff;
+            border-color: #007bff;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+
+    <!-- Block for page-specific styles -->
+    {% block extra_css %}
+    {% endblock %}
+</head>
+<body>
+    <header>
+        <h1>Personal Finance Tracker</h1>
+        <nav>
+            <a href="{% url 'dashboard' %}" class="nav-link">Dashboard</a>
+            <a href="{% url 'add_transaction' %}" class="nav-link">Add Transaction</a>
+            <a href="{% url 'add_budget' %}" class="nav-link">Add Budget</a>
+            <a href="/report/" class="btn btn-primary">View Report</a>
+            <a href="{% url 'export_csv' %}" class="btn btn-primary">Export to CSV</a>
+            <a href="{% url 'export_pdf' %}" class="btn btn-primary">Export to PDF</a>
+            <a href="{% url 'monthly_summary' %}" class="nav-link">Monthly Summary</a>
+
+
+            <!-- Show different links based on user authentication status -->
+            {% if user.is_authenticated %}
+                <a href="{% url 'profile' %}" class="nav-link">Profile</a>
+                <a href="{% url 'logout' %}" class="nav-link">Logout</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="nav-link">Login</a>
+                <a href="{% url 'register' %}" class="nav-link">Register</a>
+            {% endif %}
+        </nav>
+        <form method="get" action="{% url 'natural_query' %}" style="margin-top: 15px;">
+            <input type="text" name="q" placeholder="Ask a question..." style="padding: 10px; width: 60%; border-radius: 5px; border: 1px solid #ccc;">
+            <button type="submit" style="padding: 10px; border-radius: 5px; background-color: #28a745; color: white;">Ask</button>
+        </form>
+        
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Personal Finance Tracker</p>
+    </footer>
+</body>
+</html>

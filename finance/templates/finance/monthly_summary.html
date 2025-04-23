@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Monthly Summary</h2>
+
+<h3>This Month</h3>
+<ul>
+    <li><strong>Income:</strong> ${{ this_income }}</li>
+    <li><strong>Expense:</strong> ${{ this_expense }}</li>
+    <li><strong>Balance:</strong> ${{ this_balance }}</li>
+</ul>
+
+<h3>Last Month</h3>
+<ul>
+    <li><strong>Income:</strong> ${{ last_income }}</li>
+    <li><strong>Expense:</strong> ${{ last_expense }}</li>
+    <li><strong>Balance:</strong> ${{ last_balance }}</li>
+</ul>
+
+<h3>Highlight</h3>
+{% if biggest_expense %}
+    <p>Your biggest expense this month: <strong>{{ biggest_expense.description }}</strong> - ${{ biggest_expense.amount }}</p>
+{% else %}
+    <p>No expenses recorded yet this month.</p>
+{% endif %}
+
+<!-- Chart container -->
+<h3>Comparison Chart</h3>
+<div id="monthlyChart" style="width:100%; max-width:700px; height:400px;"></div>
+
+<!-- Include Plotly -->
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+<script>
+    const data = [
+        {
+            x: ['Income', 'Expense', 'Balance'],
+            y: [{{ this_income }}, {{ this_expense }}, {{ this_balance }}],
+            name: 'This Month',
+            type: 'bar',
+            marker: { color: '#007bff' }
+        },
+        {
+            x: ['Income', 'Expense', 'Balance'],
+            y: [{{ last_income }}, {{ last_expense }}, {{ last_balance }}],
+            name: 'Last Month',
+            type: 'bar',
+            marker: { color: '#6c757d' }
+        }
+    ];
+
+    const layout = {
+        title: 'This Month vs. Last Month',
+        barmode: 'group',
+        yaxis: {
+            title: 'Amount ($)',
+            tickprefix: '$'
+        }
+    };
+
+    Plotly.newPlot('monthlyChart', data, layout);
+</script>
+
+<a href="{% url 'dashboard' %}" class="btn">Back to Dashboard</a>
+{% endblock %}
